@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose'); // Mongoose for MongoDB connection
 const SERVER_PORT = process.env.port || 3000;
 const employeeRoutes = require('./routes/empmanagement')
 

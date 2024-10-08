@@ -24,10 +24,11 @@ router.get('/employees', async (req, res) => {
     so, it extracts the employee details from the rrquest body and return a created employee
 */
 router.post('/employees', async (req, res) => {
-    const {first_name, last_name, email, position, salary, date_of_joining, department } = req.body
+    const {empid, first_name, last_name, email, position, salary, date_of_joining, department } = req.body
 
     try{
         const newEmployee = new Employee({ // create a new instane of employee model with the given data
+            empid,
             first_name,
             last_name,
             email,
@@ -40,6 +41,7 @@ router.post('/employees', async (req, res) => {
         const empcreated = await newEmployee.save(); // Save the created employee to the database
         res.status(201).json({message: 'Employee Created Successfully', Employee: empcreated }) // Respond with status code and Employee JSON DATA
     }catch(error){
+        console.error("Error creating employee:", error); // Log the error
         res.status(400).json({ message: 'Error', error }); // return status 400 (Bad Request) with an error message
     }
 })

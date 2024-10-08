@@ -2,8 +2,8 @@ const mongodb = require('mongodb');
 const mongoose =  require('mongoose')
 
 // Model/ Database for Employee 
-const empSchema = new mongodb.Schema({
-    empid : {type:Id, required: true},
+const empSchema = new mongoose.Schema({
+    empid : {type:mongoose.ObjectId, required: true},
     first_name : {type: String, requried: true},
     last_name: {type: String, required: true},
     email: {type: String, required: true},
@@ -17,4 +17,5 @@ const empSchema = new mongodb.Schema({
 })
 
 // Export the Employee model to use in other parts of application
-module.exports = mongodb.model('Employee', empSchema)
+const Employee = mongoose.model('Employee', empSchema)
+module.exports = Employee;

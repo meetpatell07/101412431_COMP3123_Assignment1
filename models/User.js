@@ -1,9 +1,9 @@
-const mongodb = require('mongodb') // Import Mongodb libraries
+const mongoose = require('mongoose') // Import Mongodb libraries
 const bcrypt = require('bcrypt'); // Import bcrypt libraries
 
 // UserSchema has been created
-const userSchema = new mongodb.Schema({ 
-    username: {type:String, required: true},
+const userSchema = new mongoose.Schema({ 
+    username: {type:String, required: true}, unique: true,
     email: {type:String, required: true, unique: true },
     password: {type: String, required: true},
     created_at: {type: Date, default: Date.now},
@@ -19,5 +19,8 @@ userSchema.pre('save', async function(next){
     next(); // Moves on to the next middleWare
 })
 
-// Exporting the user model based on the defined schema so it can be used in other parts of the application
-module.exports = mongodb.model('User', userSchema);
+// Create the User model
+const User = mongoose.model('User', userSchema);
+
+// Export the User model
+module.exports = User;
