@@ -1,8 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose'); // Mongoose for MongoDB connection
-const SERVER_PORT = process.env.port || 3000;
 const employeeRoutes = require('./routes/empmanagement')
 const userRoutes = require('./routes/usermanagement')
+const dotenv = require('dotenv'); // dotenv to load environment variables
+dotenv.config(); // Load variables from .env file
+
+const SERVER_PORT = process.env.port || 3000;
+const MONGO_URI = process.env.MONGO_URI;
+
 
 const app = express();
 
@@ -10,7 +15,7 @@ const app = express();
 app.use(express.json());
 
 
-mongoose.connect('mongodb+srv://meetpatel0702:vOTkILuBemtTHhld@cluster0.wehku.mongodb.net/comp3123_assignment01?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,  
     useUnifiedTopology: true
 })
