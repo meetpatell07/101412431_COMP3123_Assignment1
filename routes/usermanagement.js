@@ -5,8 +5,7 @@ const router = express.Router(); // a new router object created
 const { validationResult } = require('express-validator');
 
 
-router.signup = async (req, res) => {
-
+router.post('/signup', async (req, res) => {
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -26,28 +25,50 @@ router.signup = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Error creating user', error }); // Throws an error while creation
     }
-};
+});
+
+router.post('/login', async (req, res) => {
+      // Check for validation errors
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          return res.status(400).json({ status: false, errors: errors.array() });
+      }
+  
+      const { email, password } = req.body; // Get the login details from the request bodt
+      try {
+  
+          const user = await User.findOne({ email }); // Find the user using the username  
+  
+          if (!user || !(await bcrypt.compare(password, user.password))) {
+              return res.status(400).json({ status: false, message: 'Invalid Username or password' });
+          }
+          
+          res.status(200).json({ message: 'Login successful.' });
+      } catch (error) {
+          res.status(500).json({ message: 'Error logging in', error });
+      }
+});
+
+module.exports = router;
 
 
-router.login = async (req, res) => { 
+// SignUp Function
+// router.signup = async (req, res) => {
 
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ status: false, errors: errors.array() });
-    }
+//     // Check for validation errors
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//         return res.status(400).json({ status: false, errors: errors.array() });
+//     }
+    
+//     const { username, email, password } = req.body; // Destruct the request body to get username, email and pssword from the request body
+//     try {
+//         const newUser = new User({ username, email, password }); // Create a new instance with provided username, email and password
 
-    const { email, password } = req.body; // Get the login details from the request bodt
-    try {
+//         await newUser.save(); // Save it to database
 
-        const user = await User.findOne({ email }); // Find the user using the username  
-
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(400).json({ status: false, message: 'Invalid Username or password' });
-        }
-
-        res.status(200).json({ message: 'Login successful.' });
-    } catch (error) {
-        res.status(500).json({ message: 'Error logging in', error });
-    }
-};
+//         res.status(201).json({ message: 'User created successfully.', user_id: newUser._id }); 
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error creating user', error }); // Throws an error while creation
+//     }
+// };
