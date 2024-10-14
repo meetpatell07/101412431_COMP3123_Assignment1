@@ -14,6 +14,11 @@ const app = express();
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
+// Root route
+app.get('/', (req, res) => {
+    res.send('Welcome to the Assignment_01!');
+});
+
 // Error-handling middleware
 app.use((err, req, res, next) => {
     console.error('An error occurred:', err); // Log the error
