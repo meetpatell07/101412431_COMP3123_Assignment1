@@ -12,5 +12,8 @@
             "src": "/(.*)",
             "dest":"index.js"
         }
-    ]
+    ],
+    "env": {
+        "MONGO_URI": "mongodb+srv://meetpatel0702:vOTkILuBemtTHhld@cluster0.wehku.mongodb.net/comp3123_assignment01?retryWrites=true&w=majority&appName=Cluster0"
+  }
 }

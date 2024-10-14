@@ -14,6 +14,11 @@ const app = express();
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
+// Error-handling middleware
+app.use((err, req, res, next) => {
+    console.error('An error occurred:', err); // Log the error
+    res.status(500).json({ message: 'Internal Server Error' }); // Send a generic error response
+});
 
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,  
