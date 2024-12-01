@@ -24,17 +24,15 @@ router.get('/employees', async (req, res) => {
     so, it extracts the employee details from the rrquest body and return a created employee
 */
 router.post('/employees', async (req, res) => {
-    const {empid, first_name, last_name, email, position, salary, date_of_joining, department } = req.body
+    const { first_name, last_name, email, position, salary, department } = req.body
 
     try{
         const newEmployee = new Employee({ // create a new instane of employee model with the given data
-            empid,
             first_name,
             last_name,
             email,
             position,
             salary,
-            date_of_joining,
             department
         })
 
@@ -105,4 +103,32 @@ router.delete('/employees/:eid', async (req, res) => {
         res.status(500).json({ message: 'Error deleting employee', error }); 
     }
 })
+
+/* 
+    THis endpoint Search the employee from the Database using the Department and Position
+    It returns a 200 status if successful, and 404 if the employee isn't found
+*/
+router.get('/employee/search', async (req, res) => {
+    try {
+        const { department, position } = req.query; // Destructure from query and extract the department and position
+
+        // Build a dynamic query object
+        const query = {};
+        if (department) query.department = department; // the department query parameter is provided, it adds department to the query object
+        if (position) query.position = position; // If the position query parameter is provided, it adds position to the query object.
+
+
+        // Query the database with the build query
+        const employees = await Employee.find(query) // Get employees, which queries the database to find employees that match the criteria.
+        res.status(200).json(employees); // return the employee data as JSON with 200 status code.
+        
+    } catch (error) {
+
+        console.error('Error searching employees:', error);
+        res.status(500).json({ message: 'Failed to search employees' });
+        
+    }
+
+})
 module.exports = router;
+

@@ -3,13 +3,18 @@ const mongoose = require('mongoose'); // Mongoose for MongoDB connection
 const employeeRoutes = require('./routes/empmanagement')
 const userRoutes = require('./routes/usermanagement')
 const dotenv = require('dotenv'); // dotenv to load environment variables
+const cors = require('cors');
 dotenv.config(); // Load variables from .env file
+
 
 const SERVER_PORT = process.env.port || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());
