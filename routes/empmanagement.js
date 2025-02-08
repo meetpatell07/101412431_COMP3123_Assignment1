@@ -55,7 +55,7 @@ router.get('/employees/:eid', async (req, res) => {
         if(employee){ // If the employee id exists, then return the employee 
             console.log(`Fetching employee with ID: ${eid}`);
             res.status(200).json(employee);
-        } else{// Else throw an error
+        } else{ // Else throw an error
             console.log(`Employee with ID ${eid} not found`);
             res.status(404).json({message: 'Employee not found'});
         }
